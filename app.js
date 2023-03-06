@@ -36,7 +36,7 @@ app.use(express.json({limit: "50mb"}));
 app.use(express.urlencoded({limit: "50mb", extended: true,  parameterLimit: 50000 })); 
 app.use(express.static(path.join(__dirname, 'public'))); 
 app.use(cors({ 
-    origin:['https://makeframes.netlify.app/'],
+    origin:['https://makeframes.netlify.app'],
     method:['POST', 'GET', 'PUT', 'DELETE','PATCH'],
     credentials: true,
     allowedHeaders: [
