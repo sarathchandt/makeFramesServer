@@ -13,10 +13,10 @@ export function verifyToken(req, res, next) {
 
             } else {
                 User.findOne({email:data.email}).then(result=>{
-                    if(result.isBlocked==true){
+                    if(result?.isBlocked==true){
                         res.status(400).json({ token: false, blocked:true })
                     }else{
-                        res.locals.userId = data.email
+                        res.locals.userId = data?.email
                         next()
                     }
                 })
@@ -49,6 +49,7 @@ export function verifyTokenHeader(req, res, next) {
 
 }
 export function verifyTokenAdmin(req, res, next) {
+    
     let token = req?.headers?.authorization?.split(' ')[1]
     console.log(req.headers);
     if (token==='null') {

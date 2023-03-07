@@ -36,6 +36,8 @@ import {
     hypeNow,
     hypeStatus,
     takeCategory,
+    searchPg,
+    takeProgramDomain,
     messagingPeople
 } from "./userHelpers/userHelper.mjs";
 
@@ -282,6 +284,17 @@ export function getDomain(req, res){
 export function takePeopleForMessage(req, res){
     messagingPeople(res.locals.userId).then(result=>{
         console.log(result);
+        res.json(result).status(200)
+    })
+}
+
+export function getProgramDomain(req, res){
+        takeProgramDomain().then(result=>{
+            res.json(result).status(200)
+        })
+}
+export function bringSearchedPg(req, res){
+    searchPg(res.locals.userId,req.body).then(result=>{
         res.json(result).status(200)
     })
 }

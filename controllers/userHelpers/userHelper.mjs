@@ -490,6 +490,13 @@ export function takeCategory(){
     })
 }
 
+export function takeProgramDomain(){
+    return new Promise((resolve, rejecct)=>{
+        Categories.find({user:false}).then(res=>{
+            resolve(res)
+         })
+    })
+}
 export function messagingPeople(email){
     return new Promise((resolve, rejecct)=>{
         let messageArray=[]
@@ -505,4 +512,18 @@ export function messagingPeople(email){
             })
         })
     })
+}
+ 
+export function searchPg(email,cate){
+   console.log(cate);
+        return new Promise(async (resolve, reject) => {
+            await User.findOne({ email: email }).then(async (res) => {
+                const regex = new RegExp(cate.category, 'i');
+                await Programs.find({ user: { $ne: res._id }, isBlocked: false , category:regex}).then(Programs => {
+                    resolve(Programs)
+                })
+            })
+    
+        })
+    
 }

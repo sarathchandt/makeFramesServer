@@ -30,9 +30,11 @@ import {
         hypeHim,
         unHypeHim,
         getDomain,
+        bringSearchedPg,
         takeHypeStatus,
         allUsers,
         bookProgram,
+        getProgramDomain,
         takePeopleForMessage
 } from '../controllers/userControllers.mjs'
 
@@ -114,12 +116,14 @@ router.route('/unHypeHim')
         .post(verifyTokenHeader, unHypeHim)
 router.route('/getDomain')
         .get(verifyTokenHeader,getDomain)
-
+router.route('/getProgramDomain')
+        .get(verifyTokenHeader,getProgramDomain)
 router.route('/takeHypeStatus')
         .post(verifyTokenHeader, takeHypeStatus)
 router.route('/takePeopleForMessage')
         .get(verifyTokenHeader,takePeopleForMessage)
-
+router.route('/bringSearchedPg')
+        .post(verifyToken,bringSearchedPg)
 
 
 
