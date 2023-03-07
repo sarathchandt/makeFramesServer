@@ -3,7 +3,7 @@ import Programs from '../../model/programModel.mjs'
 import Posts from '../../model/postModel.mjs'
 import Booking from '../../model/bookingModel.mjs'
 import Description from '../../model/descriptionModel.mjs'
-import Category from '../../model/categoryModel.mjs '
+import Categories from '../../model/categoryModel.mjs'
 import Chat from '../../model/chatSchema.mjs'
 import { createJwt } from '../../middleware/jwtAuth.mjs'
 import { verifyOtp } from '../../nodeMailer/nodeMailer.mjs'
@@ -484,7 +484,7 @@ export function hypeStatus(email, user) {
 
 export function takeCategory(){
     return new Promise((resolve, rejecct)=>{
-         Category.find({user:true}).then(res=>{
+        Categories.find({user:true}).then(res=>{
             resolve(res)
          })
     })
