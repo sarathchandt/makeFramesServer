@@ -451,18 +451,18 @@ export function postDelete({ id }) {
 }
 
 export function hypeNow(email, userid) {
-    console.log('kkkkkkk');
+    console.log(email,userid);
     return new Promise((resolve, reject) => {
         User.updateOne({ _id: userid.userId, hype: { $nin: [email] } }, { $push: { hype: email } }).then((res) => {
-                    resolve()
+            console.log(res);       
+            resolve()
             
-        })
+        }).catch(err=>console.log(err))
     })
 }
 
 
 export function unHypeNow(email, userid) {
-    console.log(userid);
     return new Promise((resolve, reject) => {
             User.updateOne({ _id: userid.userId}, { $pull: { hype:email} }).then(res => {
                 resolve()
@@ -471,8 +471,9 @@ export function unHypeNow(email, userid) {
 }
 
 export function hypeStatus(email, user) {
+    console.log(email,user);
     return new Promise((resolve, rejecct) => {
-        User.findOne({ _id: user.userId, hype: [email] }).then(res => {
+        User.findOne({ _id: user.userId, hype: {$in:[email] }}).then(res => {
             if (!res) {
                 resolve({ hype: false })
             } else {

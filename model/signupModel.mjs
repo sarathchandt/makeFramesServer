@@ -22,7 +22,8 @@ const signupSchema = new mongoose.Schema({
         default:false
     },
     dpimage:{ 
-        type:String
+        type:String,
+        default:null
     },
     about:{
         type:String,
