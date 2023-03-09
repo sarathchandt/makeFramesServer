@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({ 
 //     origin:['https://makeframes.netlify.app',
   
-//     "https://main.d1me12wsnvmr92.amplifyapp.com/"
+//     "https://main.d1me12wsnvmr92.amplifyapp.com/" 
 // ],
  origin:  "*"  ,
     method:['POST', 'GET', 'PUT', 'DELETE','PATCH'],

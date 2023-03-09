@@ -38,7 +38,8 @@ import {
     takeCategory,
     searchPg,
     takeProgramDomain,
-    messagingPeople
+    messagingPeople,
+    takeUsersBySearch
 } from "./userHelpers/userHelper.mjs";
 
 
@@ -295,6 +296,12 @@ export function getProgramDomain(req, res){
 }
 export function bringSearchedPg(req, res){
     searchPg(res.locals.userId,req.body).then(result=>{
+        res.json(result).status(200)
+    })
+}
+
+export function fetchUsersBySearch(req, res){
+    takeUsersBySearch(req.body).then(result=>{
         res.json(result).status(200)
     })
 }

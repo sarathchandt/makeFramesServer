@@ -35,7 +35,8 @@ import {
         allUsers,
         bookProgram,
         getProgramDomain,
-        takePeopleForMessage
+        takePeopleForMessage,
+        fetchUsersBySearch
 } from '../controllers/userControllers.mjs'
 
 import { verifyToken, verifyTokenHeader } from '../middleware/jsonWTMiddleWare.mjs'
@@ -124,7 +125,8 @@ router.route('/takePeopleForMessage')
         .get(verifyTokenHeader,takePeopleForMessage)
 router.route('/bringSearchedPg')
         .post(verifyToken,bringSearchedPg)
-
+router.route('/fetchUsersBySearch')
+        .post(verifyTokenHeader,fetchUsersBySearch)
 
 
 export default router 

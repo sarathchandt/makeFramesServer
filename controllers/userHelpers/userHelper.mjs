@@ -454,7 +454,6 @@ export function hypeNow(email, userid) {
     console.log(email,userid);
     return new Promise((resolve, reject) => {
         User.updateOne({ _id: userid.userId, hype: { $nin: [email] } }, { $push: { hype: email } }).then((res) => {
-            console.log(res);       
             resolve()
             
         }).catch(err=>console.log(err))
@@ -471,7 +470,6 @@ export function unHypeNow(email, userid) {
 }
 
 export function hypeStatus(email, user) {
-    console.log(email,user);
     return new Promise((resolve, rejecct) => {
         User.findOne({ _id: user.userId, hype: {$in:[email] }}).then(res => {
             if (!res) {
@@ -516,7 +514,6 @@ export function messagingPeople(email){
 }
  
 export function searchPg(email,cate){
-   console.log(cate);
         return new Promise(async (resolve, reject) => {
             await User.findOne({ email: email }).then(async (res) => {
                 const regex = new RegExp(cate.category, 'i');
@@ -527,4 +524,14 @@ export function searchPg(email,cate){
     
         })
     
+}
+
+export function takeUsersBySearch(name){
+    return new Promise((resolve, reject)=>{
+        const regex = new RegExp(name.name);
+        User.find({ domain:regex}).then(res=>{
+            resolve(res)
+            
+        })
+    })
 }
