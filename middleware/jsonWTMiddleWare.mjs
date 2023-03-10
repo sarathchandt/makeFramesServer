@@ -39,6 +39,7 @@ export function verifyTokenHeader(req, res, next) {
                 res.status(400).json({ token: false })
             } else {
                 res.locals.userId = data?.email
+                
                 next()
             }
         })

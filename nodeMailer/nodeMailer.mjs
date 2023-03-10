@@ -14,7 +14,7 @@ export const sendOtpMessage = (email) => {
         let mailOptions = {
             to: email,
             subject: 'otp for makeframe Login',
-            html: `<h2> Your OTP for registration is  : ${otp} </h2>`
+            html: `<h2> Your OTP from makeframes is  : ${otp} </h2>`
         }
 
 

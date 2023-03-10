@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Route } from "express";
 import { userSignup, userLogin, sendOtp } from '../controllers/userControllers.mjs'
 // import {authenticateToken} from "../jwtMiddleware/jwtAuth.mjs"
 import { isUser } from '../controllers/userControllers.mjs'
@@ -36,7 +36,10 @@ import {
         bookProgram,
         getProgramDomain,
         takePeopleForMessage,
-        fetchUsersBySearch
+        fetchUsersBySearch,
+        forgotPass,
+        verifyOtpForgot,
+        changePassword
 } from '../controllers/userControllers.mjs'
 
 import { verifyToken, verifyTokenHeader } from '../middleware/jsonWTMiddleWare.mjs'
@@ -55,7 +58,12 @@ router.route('/login')
         .post(userLogin)
 router.route('/otp')
         .post(sendOtp)
-
+router.route('/forgotPass')
+        .post(forgotPass)
+router.route('/verifyOtpForgot')
+        .post(verifyOtpForgot)
+router.route('/changePassword')
+        .post(changePassword)
 router.route('/loginCheck')
         .post(verifyToken, isUser)
 router.route('/checkArtist')

@@ -39,7 +39,10 @@ import {
     searchPg,
     takeProgramDomain,
     messagingPeople,
-    takeUsersBySearch
+    takeUsersBySearch,
+    sentOtpForForgetPass,
+    otpVerify,
+    passChange
 } from "./userHelpers/userHelper.mjs";
 
 
@@ -302,6 +305,24 @@ export function bringSearchedPg(req, res){
 
 export function fetchUsersBySearch(req, res){
     takeUsersBySearch(req.body).then(result=>{
+        res.json(result).status(200)
+    })
+}
+
+export function forgotPass(req, res){
+    sentOtpForForgetPass(req.body).then(result=>{
+        res.json(result).status(200)
+    })
+}
+
+export function verifyOtpForgot(req, res){
+    otpVerify(req.body).then(result=>{
+        res.json(result).status(200)
+    })
+}
+
+export function changePassword(req, res){
+    passChange(req.body).then(result=>{
         res.json(result).status(200)
     })
 }

@@ -7,6 +7,7 @@ import Categories from '../../model/categoryModel.mjs'
 import Chat from '../../model/chatSchema.mjs'
 import { createJwt } from '../../middleware/jwtAuth.mjs'
 import { verifyOtp } from '../../nodeMailer/nodeMailer.mjs'
+import { sendOtpMessage } from '../../nodeMailer/nodeMailer.mjs'
 import bcrypt from 'bcrypt'
 
 
@@ -261,6 +262,7 @@ export function takeBookedPg(email) {
 }
 
 export function takeHostBooking(id) {
+    console.log(id);
     return new Promise((resolve, reject) => {
         let bookings = {}
         let pending = []
@@ -451,27 +453,27 @@ export function postDelete({ id }) {
 }
 
 export function hypeNow(email, userid) {
-    console.log(email,userid);
+    console.log(email, userid);
     return new Promise((resolve, reject) => {
         User.updateOne({ _id: userid.userId, hype: { $nin: [email] } }, { $push: { hype: email } }).then((res) => {
             resolve()
-            
-        }).catch(err=>console.log(err))
+
+        }).catch(err => console.log(err))
     })
 }
 
 
 export function unHypeNow(email, userid) {
     return new Promise((resolve, reject) => {
-            User.updateOne({ _id: userid.userId}, { $pull: { hype:email} }).then(res => {
-                resolve()
-            })        
-    }) 
+        User.updateOne({ _id: userid.userId }, { $pull: { hype: email } }).then(res => {
+            resolve()
+        })
+    })
 }
 
 export function hypeStatus(email, user) {
     return new Promise((resolve, rejecct) => {
-        User.findOne({ _id: user.userId, hype: {$in:[email] }}).then(res => {
+        User.findOne({ _id: user.userId, hype: { $in: [email] } }).then(res => {
             if (!res) {
                 resolve({ hype: false })
             } else {
@@ -481,57 +483,92 @@ export function hypeStatus(email, user) {
     })
 }
 
-export function takeCategory(){
-    return new Promise((resolve, rejecct)=>{
-        Categories.find({user:true}).then(res=>{
+export function takeCategory() {
+    return new Promise((resolve, rejecct) => {
+        Categories.find({ user: true }).then(res => {
             resolve(res)
-         })
+        })
     })
 }
 
-export function takeProgramDomain(){
-    return new Promise((resolve, rejecct)=>{
-        Categories.find({user:false}).then(res=>{
+export function takeProgramDomain() {
+    return new Promise((resolve, rejecct) => {
+        Categories.find({ user: false }).then(res => {
             resolve(res)
-         })
+        })
     })
 }
-export function messagingPeople(email){
-    return new Promise((resolve, rejecct)=>{
-        let messageArray=[]
-        let count =0;
-        User.findOne({email}).then(res=>{
-            res.hype.map(e=>{
+export function messagingPeople(email) {
+    return new Promise((resolve, rejecct) => {
+        let messageArray = []
+        let count = 0;
+        User.findOne({ email }).then(res => {
+            res.hype.map(e => {
                 count++
-                User.findOne({email:e}).then(result=>{
+                User.findOne({ email: e }).then(result => {
                     messageArray.push(result)
-                    count == res.hype.length && resolve({messageArray:messageArray, self:res}) 
+                    count == res.hype.length && resolve({ messageArray: messageArray, self: res })
 
                 })
             })
         })
     })
 }
- 
-export function searchPg(email,cate){
-        return new Promise(async (resolve, reject) => {
-            await User.findOne({ email: email }).then(async (res) => {
-                const regex = new RegExp(cate.category, 'i');
-                await Programs.find({ user: { $ne: res._id }, isBlocked: false , category:regex}).then(Programs => {
-                    resolve(Programs)
-                })
+
+export function searchPg(email, cate) {
+    return new Promise(async (resolve, reject) => {
+        await User.findOne({ email: email }).then(async (res) => {
+            const regex = new RegExp(cate.category, 'i');
+            await Programs.find({ user: { $ne: res._id }, isBlocked: false, category: regex }).then(Programs => {
+                resolve(Programs)
             })
-    
         })
-    
+
+    })
+
 }
 
-export function takeUsersBySearch(name){
-    return new Promise((resolve, reject)=>{
+export function takeUsersBySearch(name) {
+    return new Promise((resolve, reject) => {
         const regex = new RegExp(name.name);
-        User.find({ domain:regex}).then(res=>{
+        User.find({ domain: regex }).then(res => {
             resolve(res)
-            
+
         })
+    })
+}
+export function sentOtpForForgetPass(clientEmail) {
+    return new Promise((resolve, reject) => {
+        User.findOne({ email: clientEmail.email }).then(res => {
+            if (!res) {
+                resolve({ email: false })
+            } else {
+                sendOtpMessage(res.email)
+                resolve({ email: true,clientEmail:clientEmail.email })
+            }
+        })
+    })
+}
+export function otpVerify(otp) {
+    return new Promise((resolve, rejecct) => {
+        verifyOtp(otp.otp).then(res => {
+            res.otp == true ? resolve({ otp: true }) : resolve({ otp: false })
+        })
+    })
+}
+
+export function passChange(pass) {
+    console.log(pass);
+    return new Promise((resolve, rejecct) => {
+        let saltRounds = 11;
+
+        bcrypt.genSalt(saltRounds, function (err, salt) {
+            bcrypt.hash(pass.pass, salt, function (err, hash) {
+                User.findOneAndUpdate({email:pass.email},{$set:{password:hash}}).then(()=>{
+                    resolve({pass:true})
+                })
+            })
+        })
+
     })
 }
