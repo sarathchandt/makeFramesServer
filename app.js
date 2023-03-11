@@ -40,7 +40,7 @@ app.use(cors({
   
 //     "https://main.d1me12wsnvmr92.amplifyapp.com/" 
 // ],
- origin:  "*"  ,
+ origin:  "http://localhost:8000"  ,
     method:['POST', 'GET', 'PUT', 'DELETE','PATCH'],
     credentials: true,
     allowedHeaders: [
@@ -72,10 +72,10 @@ const io = new SocketIOServer(server, {
     cors: {
         // origin:'https://makeframes.netlify.app',
         
-        origin:'*',
+        origin:'http://localhost:8000',
         // origin:'*',
 
-        methods:['POST', 'GET'],
+        methods:['POST', 'GET', 'PUT', 'DELETE','PATCH'],
         credentials: true,
         allowedHeaders: [
             'Content-Type', 
@@ -89,30 +89,27 @@ io.on("connection", async(socket) => {
     console.log('Client connected:', socket.id, new Date());
 
     socket.on("addUser", (id) => {
-        onlineUsers.set(id, socket.id);
+       if(onlineUsers.get(id)){
+           onlineUsers.delete(id)
+          onlineUsers.set(id, socket.id);
+        } else{
+            onlineUsers.set(id, socket.id);
+        }
     })
     socket.on("send-msg", (data) => {
         var sendUserSocket = onlineUsers.get(data.to)
+       
+     
         // if (sendUserSocket) {
         //     console.log(onlineUsers);
         //     console.log( sendUserSocket );
         //     socket.to(sendUserSocket).emit('receive', data)
         // }
 
-        sendMessageToClient(sendUserSocket,data)
-
-        function sendMessageToClient(clientId, message) {
-            console.log(io.sockets);
-            const soc = io.sockets.connected[clientId]; 
-            if (soc) {
-              soc.emit('message', message);
-            } else {
-              console.error(`Client with ID ${clientId} not found`);
-            }
-          }
+       
 
 
-        // socket.broadcast.emit('receive',data)
+        socket.broadcast.emit('receive',data)
     })
     // Handle disconnections
     socket.on('disconnect', () => {

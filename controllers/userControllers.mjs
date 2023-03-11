@@ -252,6 +252,7 @@ export function allUsers(req, res){
 }
 
 export function takeDescription (req, res){
+        
     descTake().then(result=>{
         res.json(result).status(200)
     })

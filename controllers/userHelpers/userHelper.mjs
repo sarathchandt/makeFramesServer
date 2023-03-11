@@ -402,8 +402,17 @@ export function takePeopleMessage(id, email) {
             if (!res) {
                 User.findOneAndUpdate({ email: email }, { $push: { MessagedPeople: id.toId } }).then(result => {
                     resolve(result)
+                    User.findOne({_id:id.toId , MessagedPeople: result._id}).then(res=>{
+                        if(!res){
+                            User.findOneAndUpdate({_id:id.toId},{$push: { MessagedPeople: result?._id }})
+                        }
+                    })
                 }).catch((error) => { console.log(error, "error"); })
             } else {
+                User.findOne({_id:id.toId , MessagedPeople: result._id}).then(res=>{
+                    if(!res){
+                        User.findOneAndUpdate({_id:id.toId},{$push: { MessagedPeople: result?._id }})
+                    } })
                 resolve(res)
             }
 

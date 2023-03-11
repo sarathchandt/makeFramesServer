@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import User from '../model/signupModel.mjs'
 
 export function verifyToken(req, res, next) {
-
     if (!req.body.token) {
         res.status(400).json({ token: false })
     } else {
@@ -30,6 +29,7 @@ export function verifyToken(req, res, next) {
 
 export function verifyTokenHeader(req, res, next) {
     let token = req?.headers?.authorization?.split(' ')[1]
+
     if (token == 'null' ) {
         res.status(400).json({ token: false })
     } else {
@@ -52,7 +52,6 @@ export function verifyTokenHeader(req, res, next) {
 export function verifyTokenAdmin(req, res, next) {
     
     let token = req?.headers?.authorization?.split(' ')[1]
-    console.log(req.headers);
     if (token==='null') {
         res.status(200).json({ token: false })
     } else {
