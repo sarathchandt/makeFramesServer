@@ -151,7 +151,6 @@ export function takedp(email) {
     })
 }
 export function submitPgToDB(programDetails, email) {
-    console.log(email, 'kkkk');
     return new Promise(async (resolve, reject) => {
         await User.find({ email: email }).then((result) => {
             new Programs({
@@ -465,7 +464,6 @@ export function postDelete({ id }) {
 }
 
 export function hypeNow(email, userid) {
-    console.log(email, userid);
     return new Promise((resolve, reject) => {
         User.updateOne({ _id: userid.userId, hype: { $nin: [email] } }, { $push: { hype: email } }).then((res) => {
             resolve()
@@ -570,7 +568,6 @@ export function otpVerify(otp) {
 }
 
 export function passChange(pass) {
-    console.log(pass);
     return new Promise((resolve, rejecct) => {
         let saltRounds = 11;
 

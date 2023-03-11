@@ -114,5 +114,5 @@ io.on("connection", async(socket) => {
 
 
 server.listen(3033,()=>{ 
-    console.log('sset');
+    console.log('conected:3033');
 })

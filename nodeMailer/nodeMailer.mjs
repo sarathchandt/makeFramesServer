@@ -38,7 +38,6 @@ export const sendOtpMessage = (email) => {
 
             resolve({ messaged: false })
             console.log(err);
-            console.log('kkkk');
             return ({ messaged: false })
         })
 
