@@ -409,11 +409,14 @@ export function takePeopleMessage(id, email) {
                     })
                 }).catch((error) => { console.log(error, "error"); })
             } else {
-                User.findOne({_id:id.toId , MessagedPeople: result._id}).then(res=>{
-                    if(!res){
-                        User.findOneAndUpdate({_id:id.toId},{$push: { MessagedPeople: result?._id }})
-                    } })
-                resolve(res)
+                User.findOneAndUpdate({ email: email }).then(result=>{
+
+                    User.findOne({_id:id.toId , MessagedPeople: result._id}).then(res=>{
+                        if(!res){
+                            User.findOneAndUpdate({_id:id.toId},{$push: { MessagedPeople: result?._id }})
+                        } })
+                        resolve(res) 
+                    })
             }
 
         })
