@@ -36,7 +36,7 @@ app.use(express.json({limit: "50mb"}));
 app.use(express.urlencoded({limit: "50mb", extended: true,  parameterLimit: 50000 })); 
 app.use(express.static(path.join(__dirname, 'public'))); 
 app.use(cors({ 
-    origin:'https://makeframes.netlify.app',
+    origin:'https://makeframes.netlify.app/',
   
 //     "https://main.d1me12wsnvmr92.amplifyapp.com/" 
 // ],
@@ -70,7 +70,7 @@ app.use('/admin',adminRoutes)
 
 const io = new SocketIOServer(server, {
     cors: {
-        origin:'https://makeframes.netlify.app',
+        origin:'https://makeframes.netlify.app/',
         
         // origin:'http://localhost:8000',
         // origin:'*',
