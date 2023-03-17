@@ -288,7 +288,6 @@ export function getDomain(req, res){
 }
 export function takePeopleForMessage(req, res){
     messagingPeople(res.locals.userId).then(result=>{
-        console.log(result);
         res.json(result).status(200)
     })
 }

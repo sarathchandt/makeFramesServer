@@ -8,9 +8,8 @@ otp = parseInt(otp);
 
 
 export const sendOtpMessage = (email) => {
-    console.log(otp,'otp');
     return new Promise((resolve, reject) => {
-
+console.log(otp);
         let mailOptions = {
             to: email,
             subject: 'otp for makeframe Login',
@@ -49,8 +48,7 @@ export const sendOtpMessage = (email) => {
 export const verifyOtp=(clientOtp)=>{
 
     return new Promise((resolve, reject)=>{
-        console.log(Number(clientOtp));
-        console.log(otp);
+     
         if(Number(clientOtp) === otp){
             resolve({otp:true})
         }else{

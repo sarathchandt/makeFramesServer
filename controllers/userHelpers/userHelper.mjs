@@ -116,7 +116,6 @@ export function checkArtistNow(email) {
 }
 
 export function artistRegister(details, email) {
-    console.log(details.domain);
     return new Promise(async (resolve, reject) => {
         await User.updateOne({ email: email }, { $set: { isArtist: true, about: details.about, domain: details.domain } }).then(() => {
             resolve({ artistDone: true })
@@ -261,7 +260,6 @@ export function takeBookedPg(email) {
 }
 
 export function takeHostBooking(id) {
-    console.log(id);
     return new Promise((resolve, reject) => {
         let bookings = {}
         let pending = []
@@ -359,6 +357,7 @@ export function postsForUser(id) {
 
 export function chat(content) {
     return new Promise(async (resolve, reject) => {
+        
         const { from, to, message } = content;
         const newMessage = await Chat.create({
             message: message,
