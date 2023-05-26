@@ -20,7 +20,6 @@ export function userSignupHlpr({ firstName, lastName, email, password, otp }) {
             verifyOtp(otp).then((result) => {
                 if (result.otp == true) {
                     let saltRounds = 11;
-
                     bcrypt.genSalt(saltRounds, function (err, salt) {
                         bcrypt.hash(password, salt, function (err, hash) {
                             let userDetails = new User({
@@ -70,17 +69,19 @@ export function userSignupHlpr({ firstName, lastName, email, password, otp }) {
 export function userLoginHlpr({ email, password }) {
     let status = {}
 
+
     return new Promise(async (resolve, reject) => {
         const user = await User.findOne({ email });
-
         if (!user) {
             status.isuser = false
             resolve(status)
         } else {
-
+            
             bcrypt.compare(password, user.password, function (err, result) {
-
+                
                 if (result) {
+                    
+                    console.log("the time:",new Date(),  "userName :" , user.firstName);
                     const token = createJwt({
                         email: email,
                         password: password
