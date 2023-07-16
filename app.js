@@ -37,7 +37,7 @@ app.use(express.urlencoded({limit: "50mb", extended: true,  parameterLimit: 5000
 app.use(express.static(path.join(__dirname, 'public'))); 
 app.use(cors({ 
     // origin:'http://localhost:8000',
-    origin:'https://main--makeframe.netlify.app',
+    origin:['https://main--makeframe.netlify.app','in.app.makeframes'],
     method:['POST', 'GET', 'PUT', 'DELETE','PATCH'],
     credentials: true,
     allowedHeaders: [
